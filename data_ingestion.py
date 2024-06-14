@@ -80,3 +80,7 @@ if __name__ == '__main__':
     logger.info(f"Data ingestion finished")
     logger.info(f"start time: {start_time}")
     logger.info(f"end time: {end_time}")
+    calculate_aggregate_stats()
+    logger.info(f"aggregation finished")
+    logger.info(f"start time: {start_time}")
+    logger.info(f"end time: {end_time}")
