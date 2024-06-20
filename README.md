@@ -21,13 +21,13 @@ This implementation uses SQLite for the database, SQLAlchemy for ORM, and Flask 
 --pip install -r requirements.txt
 
 5. setup SQLlite DB
---python weather_data_model.py
+--python api/weather_data_models/weather_data_model.py
 
 6. data injestion
---python data_injestion.py
+--python scripts/data_injestion.py
 
 7. Data statistics
---python data_statistics.py
+--python scripts/data_statistics.py
 
 9. Run Flask API
 --flask run
