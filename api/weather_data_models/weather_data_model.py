@@ -1,29 +1,43 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, Column, Integer, String, Float, Date
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-db = SQLAlchemy()
+# Define the database URL
+DATABASE_URL = 'sqlite:///weather_data.db'
+
+# Create a database engine
+engine = create_engine(DATABASE_URL)
+
+# Create a base class for the ORM models
+Base = declarative_base()
 
 
-class weather_data_input(db.Model):
+# Define the WeatherData model
+class WeatherData(Base):
     __tablename__ = 'weather_data'
 
-    id = db.Column(db.Integer, primary_key=True)
-    station_id = db.Column(db.String, nullable=False)
-    date = db.Column(db.Date, nullable=False)
-    maximum_temp = db.Column(db.Float)
-    minimum_temp = db.Column(db.Float)
-    precipitation = db.Column(db.Float)
-
-    __table_args__ = (db.UniqueConstraint('station_id', 'date', name='_station_date_uc'),)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    station_id = Column(String, nullable=False)
+    date = Column(Date, nullable=False)
+    maximum_temp = Column(Float)
+    minimum_temp = Column(Float)
+    precipitation = Column(Float)
 
 
-class weather_data_stats(db.Model):
+# Define the WeatherStats model
+class WeatherStats(Base):
     __tablename__ = 'weather_stats'
 
-    id = db.Column(db.Integer, primary_key=True)
-    station_id = db.Column(db.String, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    avg_maximum_temp = db.Column(db.Float)
-    avg_minimum_temp = db.Column(db.Float)
-    total_precipitation = db.Column(db.Float)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    station_id = Column(String, nullable=False)
+    year = Column(Integer, nullable=False)
+    avg_maximum_temp = Column(Float)
+    avg_minimum_temp = Column(Float)
+    total_precipitation = Column(Float)
 
-    __table_args__ = (db.UniqueConstraint('station_id', 'year', name='_station_year_uc'),)
+
+# Create the tables in the database
+Base.metadata.create_all(engine)
+
+# Print a message indicating success
+print("Database setup complete and tables created successfully.")
