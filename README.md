@@ -92,3 +92,5 @@ For deploying the application on AWS, we can use below services
 screeshots from the run 
 ![datbase_created](https://github.com/nerallapallya/coding_test_bill/assets/146959916/8c86fcfa-e2e1-4a8b-aa6f-132ba470f1cf)
 ![Screenshot 2024-06-20 at 4 47 07 PM](https://github.com/nerallapallya/coding_test_bill/assets/146959916/e6eb1949-58f0-459f-823b-c560ba2df755)
+![Screenshot 2024-06-20 at 4 53 01 PM](https://github.com/nerallapallya/coding_test_bill/assets/146959916/e3ae91d4-a405-41eb-a6f5-882bc2c0694b)
+
