@@ -1,4 +1,6 @@
 antiorm==1.2.1
+automium==0.2.6
+automium-web==0.1.1
 blinker==1.8.2
 click==8.1.7
 db==0.1.1
@@ -10,6 +12,7 @@ importlib_metadata==7.1.0
 iniconfig==2.0.0
 itsdangerous==2.2.0
 Jinja2==3.1.4
+legacy==0.1.7
 MarkupSafe==2.1.5
 MyApplication==0.1.0
 packaging==24.1
