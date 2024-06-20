@@ -1,130 +1,167 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "weather information API",
+    "title": "Weather Data API",
+    "description": "API for weather data and statistics",
     "version": "1.0.0"
   },
   "basePath": "/",
+  "schemes": [
+    "http"
+  ],
   "paths": {
     "/api/weather_inputs": {
       "get": {
-        "summary": "Get weather related data",
+        "summary": "Get weather data",
         "parameters": [
           {
             "name": "station_id",
             "in": "query",
             "type": "string",
-            "required": false
+            "description": "Filter by station ID"
           },
           {
-            "name": "date",
+            "name": "start_date",
             "in": "query",
             "type": "string",
             "format": "date",
-            "required": false
+            "description": "Filter by start date"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "description": "Filter by end date"
           },
           {
             "name": "page",
             "in": "query",
             "type": "integer",
-            "required": false
+            "description": "Page number for pagination"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "type": "integer",
+            "description": "Number of records per page"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/weather_data_input"
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer"
+                },
+                "pages": {
+                  "type": "integer"
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "station_id": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "maximum_temp": {
+                        "type": "number"
+                      },
+                      "minimum_temp": {
+                        "type": "number"
+                      },
+                      "precipitation": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }
       }
     },
-    "/api/weather_inputs/statss": {
+    "/api/weather_inputs/stats": {
       "get": {
-        "summary": "Get weather related statistics",
+        "summary": "Get weather statistics",
         "parameters": [
           {
             "name": "station_id",
             "in": "query",
             "type": "string",
-            "required": false
+            "description": "Filter by station ID"
           },
           {
             "name": "year",
             "in": "query",
             "type": "integer",
-            "required": false
+            "description": "Filter by year"
           },
           {
             "name": "page",
             "in": "query",
             "type": "integer",
-            "required": false
+            "description": "Page number for pagination"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "type": "integer",
+            "description": "Number of records per page"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/weather_stats_output"
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer"
+                },
+                "pages": {
+                  "type": "integer"
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "station_id": {
+                        "type": "string"
+                      },
+                      "year": {
+                        "type": "integer"
+                      },
+                      "avg_maximum_temp": {
+                        "type": "number"
+                      },
+                      "avg_minimum_temp": {
+                        "type": "number"
+                      },
+                      "total_precipitation": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "weather_data_input": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-         "station_id": {
-          "type": "string"
-        },
-        "date": {
-          "type": "string",
-          "format": "date"
-        },
-        "maximum_temp": {
-          "type": "number"
-        },
-        "minimum_temp": {
-          "type": "number"
-        },
-        "precipitation": {
-          "type": "number"
-        }
-      }
-    },
-    "weather_stats_output": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "station_id": {
-          "type": "string"
-        },
-        "year": {
-          "type": "integer"
-        },
-        "avg_maximum_temp": {
-          "type": "number"
-        },
-        "avg_minimum_temp": {
-          "type": "number"
-        },
-        "total_precipitation": {
-          "type": "number"
         }
       }
     }
