@@ -13,7 +13,7 @@ Base = declarative_base()
 
 
 # Define the WeatherData model
-class WeatherData(Base):
+class weather_data_input(Base):
     __tablename__ = 'weather_data'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -25,7 +25,7 @@ class WeatherData(Base):
 
 
 # Define the WeatherStats model
-class WeatherStats(Base):
+class weather_data_stats(Base):
     __tablename__ = 'weather_stats'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
