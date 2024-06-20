@@ -2,8 +2,7 @@ This project is for ingesting weather data, calculating data stats and exposing 
 This implementation uses SQLite for the database, SQLAlchemy for ORM, and Flask for the REST API.
 
 --language
-- Python 3.8+
-- pip package manager
+- Python 3.9
 
 --Setup instruction
 
