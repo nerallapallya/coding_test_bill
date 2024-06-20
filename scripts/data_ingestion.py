@@ -1,51 +1,57 @@
 import os
 import glob
 import datetime
-import logging
-from api.weather_data_models.weather_data_model import weather_data_input, db
-from api.api_setup import app
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from api.weather_data_models.weather_data_model import weather_data_input, Base
 
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-def parse_line(line):
-    parts = line.strip().split("\t")
-    date = datetime.datetime.strptime(parts[0], '%Y%m%d').date()
-    maximum_temp = int(parts[1]) / 10.0 if int(parts[1]) != -9999 else None
-    minimum_temp = int(parts[2]) / 10.0 if int(parts[2]) != -9999 else None
-    precipitation = int(parts[3]) / 10.0 if int(parts[3]) != -9999 else None
-    return date, maximum_temp, minimum_temp, precipitation
+DATABASE_URL = 'sqlite:///weather_data.db'
 
 
-def ingest_weather_inputs(dir):
-    with app.app_context():
-        files = glob.glob(os.path.join(dir, '*.txt'))
-        total_records = 0
-        start_time = datetime.datetime.now()
+def parse_weather_data_file(file_path, station_id):
+    with open(file_path, 'r') as file:
+        for line in file:
+            parts = line.strip().split()
+            if len(parts) != 4:
+                continue
 
-        for file in files:
-            station_id = os.path.basename(file).split('.')[0]
-            with open(file, 'r') as f:
-                for line in f:
-                    date, maximum_temp, minimum_temp, precipitation = parse_line(line)
-                    if not db.session.query(weather_data_input).filter_by(station_id=station_id, date=date).first():
-                        weather_record = weather_data_input(
-                            station_id=station_id,
-                            date=date,
-                            maximum_temp=maximum_temp,
-                            minimum_temp=minimum_temp,
-                            precipitation=precipitation
-                        )
-                        db.session.add(weather_record)
-                        total_records += 1
-            db.session.commit()
+            date_str, max_temp, min_temp, precipitation = parts
+            date = datetime.datetime.strptime(date_str, "%Y%m%d").date()
 
-        end_time = datetime.datetime.now()
-        logger.info(f"Ingestion started at {start_time} and ended at {end_time}")
-        logger.info(f"Total records ingested: {total_records}")
+            max_temp = float(max_temp) / 10.0 if max_temp != "-9999" else None
+            min_temp = float(min_temp) / 10.0 if min_temp != "-9999" else None
+            precipitation = float(precipitation) / 10.0 if precipitation != "-9999" else None
+
+            yield weather_data_input(
+                station_id=station_id,
+                date=date,
+                maximum_temp=max_temp,
+                minimum_temp=min_temp,
+                precipitation=precipitation
+            )
+
+
+def ingest_weather_data(data_dir):
+    engine = create_engine(DATABASE_URL)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    for file_path in glob.glob(os.path.join(data_dir, "*.txt")):
+        station_id = os.path.basename(file_path).replace('.txt', '')
+        weather_data = list(parse_weather_data_file(file_path, station_id))
+
+        for data in weather_data:
+            existing_record = session.query(weather_data_input).filter_by(station_id=data.station_id, date=data.date).first()
+            if existing_record is None:
+                session.add(data)
+
+        session.commit()
+
+    session.close()
 
 
 if __name__ == "__main__":
-    ingest_weather_inputs('../input_data/wx_data')
-
+    data_directory = '../input_data/wx_data' 
+    ingest_weather_data(data_directory)
+    print("Data ingestion complete.")
