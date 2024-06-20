@@ -73,7 +73,6 @@ Endpoints for Rest API
     - `page`: Page number for pagination
     - `per_page`: Number of records per page
 
-Swagger documentation can be accessed under `/api/static/swagger`.
 
 --How to run test cases
 
