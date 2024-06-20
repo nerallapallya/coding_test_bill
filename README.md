@@ -88,3 +88,6 @@ For deploying the application on AWS, we can use below services
 - AWS Lambda For the data injestion and calcul;ating aggregate stats. We can schedule these lambdas using AWS CloudWatch Events.
 - AWS Elastic Beanstalk or AWS ECS for Rest API
 
+
+screeshots from the run 
+![datbase_created](https://github.com/nerallapallya/coding_test_bill/assets/146959916/8c86fcfa-e2e1-4a8b-aa6f-132ba470f1cf)
