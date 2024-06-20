@@ -52,6 +52,6 @@ def ingest_weather_data(data_dir):
 
 
 if __name__ == "__main__":
-    data_directory = '../input_data/wx_data' 
+    data_directory = '../input_data/wx_data' #use the correct directory
     ingest_weather_data(data_directory)
     print("Data ingestion complete.")
