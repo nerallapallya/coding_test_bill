@@ -4,7 +4,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from api.weather_data_models.weather_data_model import weather_data_input, weather_data_stats
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
